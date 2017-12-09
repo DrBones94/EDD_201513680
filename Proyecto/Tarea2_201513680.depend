@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1512799919 source:/home/drbones/Documentos/Proyectos/Tarea2_201513680/main.cpp
+	<iostream>
+	"lista.h"
+	<stdio.h>
+	<stdlib.h>
+
+1512798964 /home/drbones/Documentos/Proyectos/Tarea2_201513680/lista.h
+
