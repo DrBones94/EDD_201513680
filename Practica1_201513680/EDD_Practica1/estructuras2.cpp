@@ -250,34 +250,82 @@ QString mostrarCS(ColaS *ColaSimple){
 }
 
 //**********INSERTAR LISTA DOBLE**********
-void insertarLDO(ListaDO *ListaDoble, char letra, QString cliente, ColaS *cola, Pila *pila){
-    Escritorio *nuevo = new Escritorio();
-    nuevo->siguiente = NULL;
-    nuevo->anaterior = NULL;
-    nuevo->letra = letra;
-    nuevo->estado = false;
-    nuevo->cliente = cliente;
-    nuevo->cola = *cola;
-    nuevo->pila = *pila;
+void insertarLDO(ListaDO *ListaDoble, QString cliente,int turn_rest , ColaS *cola, Pila *pila, int cantidad){
+    for(int i = 0; i < cantidad; i++){
+        Escritorio *nuevo = new Escritorio();
+        nuevo->siguiente = NULL;
+        nuevo->anaterior = NULL;
+        nuevo->letra = (65 + i);
+        nuevo->estado = false;
+        nuevo->cliente = cliente;
+        nuevo->cola = *cola;
+        nuevo->pila = *pila;
+        nuevo->cantidad = turn_rest;
 
+        Escritorio *aux = new Escritorio();
+        aux->anaterior = NULL;
+        aux->siguiente = NULL;
+
+        if(ListaDoble->primero == NULL){
+            ListaDoble->primero = nuevo;
+            ListaDoble->ultimo = nuevo;
+        }
+        else{
+            ListaDoble->ultimo->siguiente = nuevo;
+            nuevo->anaterior = ListaDoble->ultimo;
+            ListaDoble->ultimo = nuevo;
+        }
+    }
+}
+
+//**********MOSTRAR LISTA DOBLE**********
+QString mostrarLDO(ListaDO *ListaDoble){
+    QString graph;
     Escritorio *aux = new Escritorio();
     aux->anaterior = NULL;
     aux->siguiente = NULL;
 
+    graph.append("subgraph cluster_Escritorios { \n node [shape=box]; \n");
+
     if(ListaDoble->primero == NULL){
-        ListaDoble->primero = nuevo;
-        ListaDoble->ultimo = nuevo;
+        QMessageBox msgBox;
+        msgBox.setText("La lista de Escritorios esta vacia");
+        msgBox.exec();
     }
     else{
 
-        aux = ListaDoble->ultimo;
+        aux = ListaDoble->primero;
 
-        while(toascii(nuevo->letra) < toascii(aux->letra)){
-            aux = aux->anaterior;
+        while(aux != NULL){
+
+            if((aux->anaterior == NULL) && (aux->siguiente == NULL)){
+                graph.append(aux->letra);
+                graph.append(";\n");
+            }
+            else if((aux->siguiente == NULL) && (aux->anaterior != NULL)){
+                //graph.append(aux->id);
+                //graph.append(" -> ");
+                //graph.append(aux->anterior->id);
+                //graph.append(";\n");
+            }
+            else{
+                graph.append(aux->letra);
+                graph.append(" -> ");
+                graph.append(aux->siguiente->letra);
+                graph.append(";\n");
+                graph.append(aux->siguiente->letra);
+                graph.append(" -> ");
+                graph.append(aux->siguiente->anaterior->letra);
+                graph.append(";\n");
+            }
+
+            aux = aux->siguiente;
         }
-
-
     }
+
+    graph.append("}");
+
+    return graph;
 }
 
 void generarArchivo(QString texto){

@@ -43,6 +43,7 @@ struct Escritorio{
     QString cliente;            //Cliente siendo atendido
     ColaS cola;             //Cola para los pasajeros (MAX. 10)
     Pila pila;              //Pila para documentos
+    int cantidad;
     struct Escritorio *siguiente;
     struct Escritorio *anaterior;
 };
@@ -107,9 +108,9 @@ void eliminarCS(ColaS *ColaSimple);
 QString mostrarCS(ColaS *ColaSimple);
 
 //ListaDO *ListSimpleO;
-void insertarLDO(ListaDO *ListaSimpleO, char letra, QString cliente, int turn_rest, ColaS *cola, Pila *pila);
+void insertarLDO(ListaDO *ListaSimpleO, QString cliente, int turn_rest, ColaS *cola, Pila *pila, int cantidad);
 void eliminarLDO(ListaDO *ListaSimpleO);
-void mostrarLDO(ListaDO);
+QString mostrarLDO(ListaDO *ListaSimpleO);
 
 //ColaSE *ColaSimpleE;
 //void insertarCSE(ColaSE *ColaSimpleE, );

@@ -14,6 +14,9 @@ static QString consola = "";
 static QString tipos[] = {"Pequeño", "Mediano", "Grande"};
 static ColaD *coladoble = (struct ColaD *)malloc(sizeof(struct ColaD));
 static ColaS *colasimple = new ColaS();
+static ColaS *cola = new ColaS();
+static Pila *pila = new Pila();
+static ListaDO *listadoble = new ListaDO();
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -64,7 +67,8 @@ void MainWindow::on_pushButton_clicked()
 
     std::cout<<mostrarCD(coladoble).toStdString();
     std::cout<<mostrarCS(colasimple).toStdString();
-    generarArchivo("digraph g { \n"+mostrarCD(coladoble)+mostrarCS(colasimple) +"}");
+    std::cout<<mostrarLDO(listadoble).toStdString();
+    generarArchivo("digraph g { \n"+mostrarCD(coladoble)+mostrarCS(colasimple) + mostrarLDO(listadoble) + "}");
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -73,11 +77,18 @@ void MainWindow::on_pushButton_2_clicked()
     coladoble->ultimo = NULL;
     colasimple->primero = NULL;
     colasimple->ultimo = NULL;
+    listadoble->primero = NULL;
+    listadoble->ultimo = NULL;
+    pila->primero = NULL;
+    pila->ultimo = NULL;
+    cola->primero = NULL;
+    cola->ultimo = NULL;
     contador_a = 0;
     contador_t = 0;
     cant_t = ui->lineEdit->text().toInt();
     cant_a = ui->lineEdit_2->text().toInt();
     cant_e = ui->lineEdit_3->text().toInt();
     cant_em = ui->lineEdit_4->text().toInt();
+    insertarLDO(listadoble, "ninguno", 0, cola, pila, cant_e);
 }
 
