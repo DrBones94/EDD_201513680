@@ -34,41 +34,47 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    QString nombre_a = "A" + QString::number(contador_a);
-    QString nombre_p = "P" + QString::number(contador_t);
+    if(contador_t < cant_t){
+        QString nombre_a = "A" + QString::number(contador_a);
+        QString nombre_p = "P" + QString::number(contador_t);
 
-    if((contador_a < cant_a) && (contador_t < cant_t)){
+        if((contador_a < cant_a) && (contador_t < cant_t)){
 
-        int random = rand() % 2;
+            int random = rand() % 2;
 
-        insertarCD(coladoble, tipos[random], nombre_a, cantidadPA(random), turnosA(random), turnosAM(random));
-        contador_a++;
-    }
+            insertarCD(coladoble, tipos[random], nombre_a, cantidadPA(random), turnosA(random), turnosAM(random));
+            contador_a++;
+        }
 
-    if(coladoble->primero->turn_d == 0 && coladoble->primero != NULL){
-        insertarCS(colasimple, nombre_p, coladoble->primero->cant_pasajeros);
+        if(coladoble->primero->turn_d == 0 && coladoble->primero != NULL){
+            insertarCS(colasimple, nombre_p, coladoble->primero->cant_pasajeros);
+            eliminarCD(coladoble);
 
+        }
+        else{
+            coladoble->primero->turn_d--;
+        }
+
+
+        contador_t++;
+
+        consola += "**********TURNO" + QString::number(contador_t )+ "********** \n";
+        consola += "Arribo avion: " + nombre_a + "\n";
+        consola += "Avion Desabordando: " + coladoble->primero->id + "\n";
+        consola += "----ESCRITORIOS---- \n";
+
+        ui->textEdit->setText(consola);
+
+        std::cout<<mostrarCD(coladoble).toStdString();
+        std::cout<<mostrarCS(colasimple).toStdString();
+        std::cout<<mostrarLDO(listadoble).toStdString();
+        generarArchivo("digraph g { \n"+mostrarCD(coladoble)+mostrarCS(colasimple) + mostrarLDO(listadoble) + "}");
     }
     else{
-        coladoble->primero->turn_d--;
+        QMessageBox msgbox;
+        msgbox.setText("Ingrese nuevos valores para simular");
+        msgbox.exec();
     }
-
-
-    contador_t++;
-
-    //std::cout<<coladoble->primero->id.toStdString();
-
-    consola += "**********TURNO" + QString::number(contador_t )+ "********** \n";
-    consola += "Arribo avion: " + nombre_a + "\n";
-    consola += "Avion Desabordando: " + coladoble->primero->id + "\n";
-    consola += "----ESCRITORIOS---- \n";
-
-    ui->textEdit->setText(consola);
-
-    std::cout<<mostrarCD(coladoble).toStdString();
-    std::cout<<mostrarCS(colasimple).toStdString();
-    std::cout<<mostrarLDO(listadoble).toStdString();
-    generarArchivo("digraph g { \n"+mostrarCD(coladoble)+mostrarCS(colasimple) + mostrarLDO(listadoble) + "}");
 }
 
 void MainWindow::on_pushButton_2_clicked()

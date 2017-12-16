@@ -115,6 +115,7 @@ void eliminarCD(ColaD *ColaDoble){
         aux = ColaDoble->primero->siguiente;
         free(ColaDoble->primero);
         ColaDoble->primero = aux;
+        ColaDoble->primero->anterior = NULL;
     }
 }
 
@@ -138,8 +139,6 @@ QString mostrarCD(ColaD *ColaDoble){
         aux = ColaDoble->primero;
 
         while(aux != NULL){
-
-            //std::cout<<aux->id.toStdString();
 
             if((aux->anterior == NULL) && (aux->siguiente == NULL)){
                 graph.append(aux->id);
